@@ -1,0 +1,10 @@
+# Ignore environment & secret configuration files
+.env
+.env.local
+
+# Ignore SQLite databases
+database/*.sqlite
+database/*.db
+
+# Ignore log files
+*.log
