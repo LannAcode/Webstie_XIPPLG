@@ -56,6 +56,18 @@
         </div>
       </div>
 
+      <!-- Foto: Presentasi Kode Bahasa C Input Nilai Rapot Dinamis -->
+      <div class="gallery-item" data-category="lab">
+        <div class="gallery-img-wrapper" style="width: 100%; height: 280px; overflow: hidden; border-radius: var(--radius-md); position: relative; background: #ffffff;">
+          <img src="assets/images/galeri/presentasi_c_nilai_rapot_dinamis.jpg" alt="Presentasi kode bahasa c membuat input nilai rapot secara dinamis untuk menghitung rata rata nilai" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: var(--transition);">
+        </div>
+        <div class="gallery-overlay">
+          <h5>Presentasi Kode Bahasa C</h5>
+          <p>Membuat input nilai rapot secara dinamis untuk menghitung rata-rata nilai</p>
+          <div class="gallery-zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+
       <!-- Foto 2: Praktikum Lab Komputer -->
       <div class="gallery-item" data-category="lab">
         <div class="gallery-img-wrapper" style="width: 100%; height: 280px; overflow: hidden; border-radius: var(--radius-md); position: relative; background: #ffffff;">

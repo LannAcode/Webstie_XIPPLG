@@ -49,6 +49,18 @@
         </div>
       </div>
 
+      <!-- Kegiatan 3: Presentasi Kode Bahasa C Input Nilai Rapot Dinamis (Foto Asli) -->
+      <div class="activity-card">
+        <div class="activity-img-box" style="height: 250px;">
+          <span class="activity-date-badge"><i class="fa-solid fa-person-chalkboard"></i> Presentasi Bahasa C</span>
+          <img src="assets/images/kegiatan/presentasi_c_nilai_rapot_dinamis.jpg" alt="Presentasi kode bahasa c membuat input nilai rapot secara dinamis untuk menghitung rata rata nilai" style="object-position: center top;">
+        </div>
+        <div class="activity-content">
+          <h4 class="activity-title" style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem;">Presentasi Kode Bahasa C: Input Nilai Rapot Dinamis</h4>
+          <p class="activity-desc" style="font-size: 0.9rem; color: #64748B; line-height: 1.6;">Presentasi kode bahasa C membuat input nilai rapot secara dinamis untuk menghitung rata-rata nilai dan penentuan predikat nilai siswa di depan kelas.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
