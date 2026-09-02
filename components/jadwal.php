@@ -29,7 +29,7 @@
             <span class="room-badge" style="background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE;">Kode Guru: 48E</span>
           </div>
           <h4 class="schedule-subject">Pemrograman Perangkat Bergerak <span style="color: #2563EB; font-size: 0.85rem;">(K-RPL4)</span></h4>
-          <p class="schedule-teacher"><i class="fa-solid fa-user-tie" style="color: #2563EB;"></i> I Putu Agus Julio Pratama, S.Kom</p>
+          <p class="schedule-teacher"><i class="fa-solid fa-user-tie" style="color: #2563EB;"></i> Putu Agus Julio Pratama, S.Kom</p>
         </div>
         <div class="schedule-footer">
           <span class="status-tag active">Senin</span>
@@ -45,7 +45,7 @@
             <span class="room-badge" style="background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE;">Kode Guru: 48B</span>
           </div>
           <h4 class="schedule-subject">Projek Peluang <span style="color: #2563EB; font-size: 0.85rem;">(48B)</span></h4>
-          <p class="schedule-teacher"><i class="fa-solid fa-user-tie" style="color: #2563EB;"></i> I Putu Agus Julio Pratama, S.Kom</p>
+          <p class="schedule-teacher"><i class="fa-solid fa-user-tie" style="color: #2563EB;"></i> Putu Agus Julio Pratama, S.Kom</p>
         </div>
         <div class="schedule-footer">
           <span class="status-tag active">Selasa</span>
@@ -78,7 +78,7 @@
             <span class="room-badge" style="background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE;">Kode Guru: 48I</span>
           </div>
           <h4 class="schedule-subject">Desain Grafis Lanjutan <span style="color: #2563EB; font-size: 0.85rem;">(P-RPL1)</span></h4>
-          <p class="schedule-teacher"><i class="fa-solid fa-user-tie" style="color: #2563EB;"></i> I Putu Agus Julio Pratama, S.Kom</p>
+          <p class="schedule-teacher"><i class="fa-solid fa-user-tie" style="color: #2563EB;"></i> Putu Agus Julio Pratama, S.Kom</p>
         </div>
         <div class="schedule-footer">
           <span class="status-tag active">Rabu</span>

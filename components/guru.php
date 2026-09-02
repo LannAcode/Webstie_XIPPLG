@@ -11,12 +11,12 @@
 
     <div class="teacher-grid reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 380px)); gap: 2rem; justify-content: center;">
       
-      <!-- Guru 1: I Putu Agus Julio Pratama, S.Kom (Foto Asli Installed) -->
+      <!-- Guru 1: Putu Agus Julio Pratama, S.Kom (Foto Asli Installed) -->
       <div class="teacher-card">
         <div class="teacher-avatar-wrapper">
-          <img src="assets/images/guru/julio.jpg" alt="I Putu Agus Julio Pratama, S.Kom" style="object-position: center 25%; transform: scale(1.15);">
+          <img src="assets/images/guru/julio.jpg" alt="Putu Agus Julio Pratama, S.Kom" style="object-position: center 25%; transform: scale(1.15);">
         </div>
-        <h4 class="teacher-name">I Putu Agus Julio Pratama, S.Kom</h4>
+        <h4 class="teacher-name">Putu Agus Julio Pratama, S.Kom</h4>
         <div class="teacher-role">Guru Produktif PPLG</div>
         <p class="teacher-subject"><i class="fa-solid fa-mobile-screen"></i> Perangkat Bergerak & Desain Grafis</p>
         <div class="teacher-socials">
