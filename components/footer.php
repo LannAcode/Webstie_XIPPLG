@@ -41,8 +41,7 @@
         <h5>Tautan & Medsos</h5>
         <ul>
           <li><a href="https://www.smkbalidewata.sch.id" target="_blank" rel="noopener noreferrer" style="color: #38BDF8; font-weight: 600;"><i class="fa-solid fa-globe"></i> Website Resmi SMK</a></li>
-          <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram XI PPLG</a></li>
-          <li><a href="#"><i class="fa-brands fa-github"></i> GitHub XI PPLG</a></li>
+          <li><a href="https://www.instagram.com/xipplg_official?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" style="color: #E1306C;"></i> @xipplg_official</a></li>
         </ul>
       </div>
     </div>
