@@ -54,8 +54,12 @@ $sql = "SELECT * FROM pesan_kontak WHERE 1=1";
 $params = [];
 
 if (!empty($search)) {
-  $sql .= " AND (nama LIKE :search OR email LIKE :search OR subjek LIKE :search OR pesan LIKE :search)";
-  $params[':search'] = "%{$search}%";
+  $sql .= " AND (nama LIKE :s_nama OR email LIKE :s_email OR subjek LIKE :s_subjek OR pesan LIKE :s_pesan)";
+  $searchTerm = "%{$search}%";
+  $params[':s_nama']   = $searchTerm;
+  $params[':s_email']  = $searchTerm;
+  $params[':s_subjek'] = $searchTerm;
+  $params[':s_pesan']  = $searchTerm;
 }
 
 if ($filter === 'unread') {
@@ -66,9 +70,14 @@ if ($filter === 'unread') {
 
 $sql .= " ORDER BY id DESC";
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$daftarPesan = $stmt->fetchAll();
+try {
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
+  $daftarPesan = $stmt->fetchAll();
+} catch (PDOException $e) {
+  $daftarPesan = [];
+  $queryError = $e->getMessage();
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
