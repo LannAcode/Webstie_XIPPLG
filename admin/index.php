@@ -441,8 +441,6 @@ try {
       const templateID = config.replyTemplateID || config.templateID || 'template_bu1bryq';
       const publicKey = config.publicKey || '6EQMY_TcGjGsSBYhe';
 
-      const fullReplyText = replyText + '\n\n----------------------------------------\nPesan Asli Anda:\n' + originalMsg;
-
       const templateParams = {
         from_name: 'Pengurus & Admin XI PPLG SMK Bali Dewata',
         user_name: toName,
@@ -458,12 +456,11 @@ try {
         subject: subject,
         title: subject,
 
-        // Tepat mengirimkan balasan email tanpa teks peringatan OTP!
-        passcode: fullReplyText,
-        otp_code: '',
-        message: fullReplyText,
-        notes: fullReplyText,
-        pesan: fullReplyText
+        // Variabel untuk Template Balasan Admin
+        message: replyText,
+        reply_message: replyText,
+        original_message: originalMsg,
+        passcode: replyText
       };
 
       if (window.emailjs && typeof emailjs.send === 'function') {
