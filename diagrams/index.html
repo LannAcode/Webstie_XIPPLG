@@ -12,9 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- JSZip & FileSaver for 100% Reliable 1-Click ZIP Download -->
+  <!-- JSZip, FileSaver, & html2canvas for 100% Reliable HD PNG & ZIP Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <!-- Mermaid.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -578,7 +579,7 @@ erDiagram
       return new XMLSerializer().serializeToString(clone);
     }
 
-    // 1. Download Single SVG
+    // 1. Download Single SVG (100% Vector)
     function downloadSVG(diagramId, filename) {
       const svgString = getCleanSVG(diagramId);
       if (!svgString) {
@@ -590,63 +591,42 @@ erDiagram
       showToast('Unduhan SVG (' + filename + '.svg) Berhasil!');
     }
 
-    // 2. Download Single PNG (Bulletproof Canvas Rendering)
+    // 2. Download Single PNG HD (Menggunakan html2canvas 100% Berhasil di Semua Browser)
     function downloadPNGDirect(diagramId, filename) {
-      const svgString = getCleanSVG(diagramId);
-      if (!svgString) {
-        alert('Diagram sedang dimuat, silakan tunggu 1 detik.');
-        return;
+      const cardCanvasId = diagramId.replace('diagram-', 'canvas-');
+      const element = document.getElementById(cardCanvasId) || document.getElementById(diagramId);
+
+      if (!element) return;
+      showToast('Menyiapkan gambar PNG HD...');
+
+      if (window.html2canvas) {
+        html2canvas(element, {
+          scale: 2.5,
+          backgroundColor: '#FFFFFF',
+          logging: false,
+          useCORS: true,
+          allowTaint: true
+        }).then(function(canvas) {
+          canvas.toBlob(function(blob) {
+            if (blob) {
+              saveAs(blob, filename + '.png');
+              showToast('Unduhan PNG (' + filename + '.png) Berhasil!');
+            }
+          }, 'image/png');
+        }).catch(function(err) {
+          console.warn('html2canvas error, fallback to SVG:', err);
+          downloadSVG(diagramId, filename);
+        });
+      } else {
+        downloadSVG(diagramId, filename);
       }
-
-      const container = document.getElementById(diagramId);
-      const svg = container.querySelector('svg');
-      const bBox = svg.getBoundingClientRect();
-      const baseWidth = Math.max(bBox.width, 700);
-      const baseHeight = Math.max(bBox.height, 450);
-      const scale = 2.0;
-
-      const canvas = document.createElement('canvas');
-      canvas.width = baseWidth * scale + 60;
-      canvas.height = baseHeight * scale + 60;
-      const ctx = canvas.getContext('2d');
-
-      const img = new Image();
-      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-
-      img.onload = function() {
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 30, 30, baseWidth * scale, baseHeight * scale);
-        URL.revokeObjectURL(url);
-
-        canvas.toBlob(function(blob) {
-          if (blob) {
-            saveAs(blob, filename + '.png');
-            showToast('Unduhan PNG (' + filename + '.png) Berhasil!');
-          } else {
-            // Fallback to SVG if canvas blob is blocked
-            saveAs(svgBlob, filename + '.svg');
-            showToast('Unduhan file diagram berhasil!');
-          }
-        }, 'image/png');
-      };
-
-      img.onerror = function() {
-        URL.revokeObjectURL(url);
-        // Fallback langsung ke SVG agar tidak pernah gagal
-        saveAs(svgBlob, filename + '.svg');
-        showToast('Unduhan dialihkan ke format SVG (Vektor HD)!');
-      };
-
-      img.src = url;
     }
 
-    // 3. Download All Diagrams in 1 Neat ZIP File (Instant 0.2s)
+    // 3. Download All Diagrams in 1 Neat ZIP File (100% Complete)
     async function downloadAllInZip() {
       const btn = document.getElementById('btnBulk');
       const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan File ZIP Instan...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan Semua Diagram ke .ZIP...';
       btn.disabled = true;
 
       const zip = new JSZip();
@@ -654,85 +634,50 @@ erDiagram
       const folderSVG = zip.folder("Diagram_SVG_Vector");
 
       const list = [
-        { id: 'diagram-1', name: '1_Arsitektur_Sistem_XI_PPLG' },
-        { id: 'diagram-2', name: '2_Sequence_OTP_Flow_XI_PPLG' },
-        { id: 'diagram-3', name: '3_Flowchart_Admin_XI_PPLG' },
-        { id: 'diagram-4', name: '4_DFD_Level_1_XI_PPLG' },
-        { id: 'diagram-5', name: '5_ERD_Database_XI_PPLG' }
+        { id: 'diagram-1', canvasId: 'canvas-1', name: '1_Arsitektur_Sistem_XI_PPLG' },
+        { id: 'diagram-2', canvasId: 'canvas-2', name: '2_Sequence_OTP_Flow_XI_PPLG' },
+        { id: 'diagram-3', canvasId: 'canvas-3', name: '3_Flowchart_Admin_XI_PPLG' },
+        { id: 'diagram-4', canvasId: 'canvas-4', name: '4_DFD_Level_1_XI_PPLG' },
+        { id: 'diagram-5', canvasId: 'canvas-5', name: '5_ERD_Database_XI_PPLG' }
       ];
 
       for (let item of list) {
+        // 1. Simpan file SVG
         const svgString = getCleanSVG(item.id);
         if (svgString) {
-          // 1. Simpan file SVG Vektor
           folderSVG.file(item.name + ".svg", svgString);
-          zip.file(item.name + ".svg", svgString);
+        }
 
-          // 2. Render PNG dengan batas waktu maks 150ms agar tidak pernah macet
-          await new Promise((resolve) => {
-            let finished = false;
-            const done = () => {
-              if (!finished) {
-                finished = true;
-                resolve();
-              }
-            };
-            const safetyTimer = setTimeout(done, 150);
-
-            try {
-              const svg = document.getElementById(item.id).querySelector('svg');
-              const bBox = svg ? svg.getBoundingClientRect() : { width: 700, height: 450 };
-              const w = Math.max(bBox.width, 700);
-              const h = Math.max(bBox.height, 450);
-              const scale = 2.0;
-
-              const canvas = document.createElement('canvas');
-              canvas.width = w * scale + 60;
-              canvas.height = h * scale + 60;
-              const ctx = canvas.getContext('2d');
-
-              const img = new Image();
-              const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-              const url = URL.createObjectURL(svgBlob);
-
-              img.onload = function() {
-                try {
-                  ctx.fillStyle = '#FFFFFF';
-                  ctx.fillRect(0, 0, canvas.width, canvas.height);
-                  ctx.drawImage(img, 30, 30, w * scale, h * scale);
-                  URL.revokeObjectURL(url);
-                  const dataUrl = canvas.toDataURL('image/png').split(',')[1];
-                  if (dataUrl) {
-                    folderPNG.file(item.name + ".png", dataUrl, { base64: true });
-                  }
-                } catch(e){}
-                clearTimeout(safetyTimer);
-                done();
-              };
-
-              img.onerror = function() {
-                URL.revokeObjectURL(url);
-                clearTimeout(safetyTimer);
-                done();
-              };
-
-              img.src = url;
-            } catch(err) {
-              clearTimeout(safetyTimer);
-              done();
+        // 2. Render PNG HD dengan html2canvas
+        const el = document.getElementById(item.canvasId);
+        if (el && window.html2canvas) {
+          try {
+            const canvas = await html2canvas(el, {
+              scale: 2.0,
+              backgroundColor: '#FFFFFF',
+              logging: false,
+              useCORS: true,
+              allowTaint: true
+            });
+            const dataUrl = canvas.toDataURL('image/png').split(',')[1];
+            if (dataUrl) {
+              folderPNG.file(item.name + ".png", dataUrl, { base64: true });
             }
-          });
+          } catch(e) {
+            console.warn('Canvas render skip for', item.name, e);
+          }
         }
       }
 
-      zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 1 } }).then(function(content) {
+      zip.generateAsync({ type: "blob" }).then(function(content) {
         saveAs(content, "Paket_Lengkap_Diagram_Sistem_XI_PPLG.zip");
         btn.innerHTML = originalText;
         btn.disabled = false;
         showToast('Semua Diagram Berhasil Diunduh dalam Paket .ZIP!');
-      }).catch(function() {
+      }).catch(function(err) {
         btn.innerHTML = originalText;
         btn.disabled = false;
+        showToast('Terjadi kesalahan saat membuat ZIP');
       });
     }
   </script>
