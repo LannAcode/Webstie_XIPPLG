@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Diagram Sistem XI PPLG - SMK Bali Dewata</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png">
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0B0F19;
+      --bg-card: #151C2C;
+      --bg-inner: #0F172A;
+      --primary-blue: #3B82F6;
+      --accent-cyan: #06B6D4;
+      --accent-emerald: #10B981;
+      --text-white: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      padding: 2.5rem 1.5rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-box {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2.5rem 1.5rem;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.6));
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(59, 130, 246, 0.2);
+      color: #60A5FA;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(90deg, #FFFFFF, #93C5FD);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 700px;
+      margin: 0 auto 1.5rem auto;
+      line-height: 1.6;
+    }
+
+    .btn-bulk-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35);
+      transition: all 0.3s ease;
+    }
+    .btn-bulk-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5);
+    }
+
+    .diagram-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      margin-bottom: 2.5rem;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.3s ease;
+    }
+    .diagram-card:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .diagram-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 1.8rem;
+      background: rgba(15, 23, 42, 0.6);
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .diagram-title {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .diagram-title .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60A5FA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .diagram-title h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .diagram-title p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #1E293B;
+      color: #F8FAFC;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-action:hover {
+      background: var(--primary-blue);
+      border-color: var(--primary-blue);
+      color: #fff;
+    }
+    .btn-action.svg-btn:hover {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+    }
+
+    .diagram-canvas {
+      padding: 2.5rem 1.5rem;
+      background: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 380px;
+      overflow-x: auto;
+    }
+
+    .diagram-canvas .mermaid {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-bar {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .footer-bar a {
+      color: #38BDF8;
+      text-decoration: none;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent-emerald);
+      color: #FFFFFF;
+      padding: 0.85rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header Hero -->
+    <div class="header-box">
+      <div class="badge">
+        <i class="fa-solid fa-layer-group"></i> Ekspor Diagram Sistem
+      </div>
+      <h1>Download Diagram Sistem XI PPLG</h1>
+      <p class="subtitle">
+        Unduh seluruh diagram arsitektur, sequence, flowchart admin, DFD, dan ERD resmi Website XI PPLG SMK Bali Dewata dalam resolusi tinggi (PNG & SVG Vektor).
+      </p>
+      <button class="btn-bulk-download" onclick="downloadAllDiagrams()">
+        <i class="fa-solid fa-cloud-arrow-down"></i> Unduh Semua Diagram Sekaligus (.PNG)
+      </button>
+    </div>
+
+    <!-- 1. ARSITEKTUR SISTEM -->
+    <div class="diagram-card" id="card-1">
+      <div class="diagram-header">
+        <div class="diagram-title">
+          <div class="icon-box"><i class="fa-solid fa-network-wired"></i></div>
+          <div>
+            <h3>1. Diagram Arsitektur Sistem (System Architecture)</h3>
+            <p>Struktur hubungan Pengunjung, Frontend, Backend PHP, MySQL & EmailJS Cloud</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn-action svg-btn" onclick="downloadSVG('diagram-1', '1_Arsitektur_Sistem_XI_PPLG')">
+            <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
+          </button>
+          <button class="btn-action" onclick="downloadPNG('diagram-1', '1_Arsitektur_Sistem_XI_PPLG')">
+            <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
+          </button>
+        </div>
+      </div>
+      <div class="diagram-canvas" id="canvas-1">
+        <div class="mermaid" id="diagram-1">
+graph TD
+    subgraph Users ["👥 Pengguna Sistem"]
+        V["🌐 Pengunjung / Visitor"]
+        A["👨‍💻 Admin / Pengurus XI PPLG"]
+    end
+
+    subgraph Frontend ["🎨 Layer Frontend (Browser Client)"]
+        UI["📱 Web App XI PPLG (HTML5, CSS3, JS ES6)"]
+        MOD["🧩 Seksi Website:
+        • Hero & Tentang
+        • Daftar 9 Siswa
+        • Jadwal & Guru
+        • Galeri & Kegiatan
+        • Form Kontak & OTP"]
+        EJS_SDK["⚡ EmailJS Browser SDK"]
+    end
+
+    subgraph Server ["🖥️ Layer Backend PHP 8.2 (Server)"]
+        ENTRY["📄 index.php (Master Entry)"]
+        ENV["🔒 config/env.php (.env Loader)"]
+        DB_CFG["🔌 config/db.php (PDO Connection)"]
+        ADMIN_SYS["📊 Admin Subsystem:
+        • admin/login.php (Auth & CSRF)
+        • admin/index.php (Dashboard)
+        • admin/action.php (CRUD Handler)"]
+        SEC["🛡️ Security Headers & Session Engine"]
+    end
+
+    subgraph Storage ["💾 Layer Data (MySQL DB)"]
+        DB[(🗄️ Database: db_xi_pplg)]
+        TBL["📋 Table: pesan_kontak
+        (id, nama, email, subjek, pesan, status, created_at)"]
+    end
+
+    subgraph Cloud ["☁️ Layanan Eksternal & SEO"]
+        EJS_CLOUD["✉️ EmailJS Cloud Service
+        (Service ID: service_kwbsvxg)"]
+        T_OTP["🔑 Template 1: OTP (template_bu1bryq)"]
+        T_REPLY["✉️ Template 2: Reply (template_x2i6d1o)"]
+        G_SEARCH["🔍 Googlebot & Search Console
+        (robots.txt & sitemap.xml)"]
+    end
+
+    V -->|Akses Website| UI
+    UI --- MOD
+    UI -->|Kirim Request OTP| EJS_SDK
+    EJS_SDK -->|Kirim Email OTP| EJS_CLOUD
+    EJS_CLOUD --> T_OTP
+    T_OTP -->|Kirim Kode 6 Digit| V
+
+    UI -->|Submit Form Kontak (Setelah Validasi OTP)| ENTRY
+    ENTRY --> SEC
+    SEC --> DB_CFG
+    DB_CFG --> ENV
+    DB_CFG --> TBL
+
+    A -->|Login Admin| ADMIN_SYS
+    ADMIN_SYS --> DB_CFG
+    ADMIN_SYS -->|Balas Pesan Pengunjung| EJS_SDK
+    EJS_SDK --> EJS_CLOUD
+    EJS_CLOUD --> T_REPLY
+    T_REPLY -->|Kirim Email Balasan Resmi| V
+
+    G_SEARCH -->|Crawling Sitemap| ENTRY
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SEQUENCE DIAGRAM OTP FLOW -->
+    <div class="diagram-card" id="card-2">
+      <div class="diagram-header">
+        <div class="diagram-title">
+          <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <h3>2. Diagram Alur Verifikasi OTP EmailJS (Sequence Diagram)</h3>
+            <p>Alur interaksi berurutan saat pengunjung meminta OTP 6-digit hingga verifikasi</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn-action svg-btn" onclick="downloadSVG('diagram-2', '2_Sequence_OTP_Flow_XI_PPLG')">
+            <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
+          </button>
+          <button class="btn-action" onclick="downloadPNG('diagram-2', '2_Sequence_OTP_Flow_XI_PPLG')">
+            <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
+          </button>
+        </div>
+      </div>
+      <div class="diagram-canvas" id="canvas-2">
+        <div class="mermaid" id="diagram-2">
+sequenceDiagram
+    autonumber
+    actor Pengunjung
+    participant Frontend as Website XI PPLG
+    participant JS as contact.js (JS Module)
+    participant EmailJS as EmailJS Cloud Service
+    participant Gmail as Inbox Gmail Pengunjung
+    participant PHP as Backend PHP (index.php)
+    participant MySQL as Database MySQL
+
+    Pengunjung->>Frontend: Isi Nama & Email pada Form Kontak
+    Pengunjung->>Frontend: Klik Tombol "Kirim Kode OTP"
+    Frontend->>JS: Trigger Event Handler Send OTP
+    JS->>JS: Generate Kode OTP 6-Digit Acak (misal: 849201)
+    JS->>EmailJS: Send Template 'template_bu1bryq' (service_kwbsvxg)
+    EmailJS-->>Gmail: Kirim Email Kode OTP (Passcode: 849201)
+    Gmail-->>Pengunjung: Terima Email Kode OTP
+    
+    Pengunjung->>Frontend: Masukkan 6-Digit Kode OTP & Isi Pesan
+    Pengunjung->>Frontend: Klik "Verifikasi & Kirim Pesan"
+    Frontend->>JS: Validasi Kode OTP Input vs Generated OTP
+    
+    alt Kode OTP Salah / Tidak Cocok
+        JS-->>Frontend: Tampilkan Alert "Kode OTP Salah!"
+    else Kode OTP Benar / Valid
+        JS->>PHP: Submit Form via HTTP POST
+        PHP->>MySQL: INSERT INTO pesan_kontak (nama, email, subjek, pesan, status)
+        MySQL-->>PHP: Success (Insert OK)
+        PHP-->>Frontend: Response Success & Reset Form
+        Frontend-->>Pengunjung: Tampilkan Toast Notifikasi "Pesan Terkirim!"
+    end
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. FLOWCHART ADMIN -->
+    <div class="diagram-card" id="card-3">
+      <div class="diagram-header">
+        <div class="diagram-title">
+          <div class="icon-box"><i class="fa-solid fa-user-shield"></i></div>
+          <div>
+            <h3>3. Diagram Alur Dashboard Admin (Admin Control Flow)</h3>
+            <p>Logika autentikasi login, CRUD pesan, dan pengiriman surat balasan resmi</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn-action svg-btn" onclick="downloadSVG('diagram-3', '3_Flowchart_Admin_XI_PPLG')">
+            <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
+          </button>
+          <button class="btn-action" onclick="downloadPNG('diagram-3', '3_Flowchart_Admin_XI_PPLG')">
+            <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
+          </button>
+        </div>
+      </div>
+      <div class="diagram-canvas" id="canvas-3">
+        <div class="mermaid" id="diagram-3">
+flowchart TD
+    Start([Akses /admin/login.php]) --> CheckSession{Sudah Login?}
+    CheckSession -- Ya --> Dashboard[/admin/index.php/]
+    CheckSession -- Tidak --> FormLogin[Tampilkan Form Login Admin]
+    
+    FormLogin --> InputCreds[Input Username & Password]
+    InputCreds --> SubmitLogin{Verifikasi CSRF & Kredensial}
+    
+    SubmitLogin -- Salah --> ErrMsg[Tampilkan Pesan Error] --> FormLogin
+    SubmitLogin -- Benar --> SetSession[Set Session admin_logged_in = true] --> Dashboard
+    
+    Dashboard --> Actions{Pilih Aksi Admin}
+    
+    Actions -->|Cari / Filter| SearchProc[Filter Query SQL berdasarkan Keyword / Status] --> RenderTable[Tampilkan Tabel Pesan]
+    
+    Actions -->|Ubah Status| ToggleProc[GET /admin/action.php?action=toggle_status]
+    ToggleProc --> UpdateDB1[UPDATE pesan_kontak SET status = 'sudah_dibaca' / 'belum_dibaca'] --> Reload[Reload Tabel]
+    
+    Actions -->|Hapus Pesan| DelProc[GET /admin/action.php?action=delete]
+    DelProc --> UpdateDB2[DELETE FROM pesan_kontak WHERE id = X] --> Reload
+    
+    Actions -->|Balas Email| ModalReply[Buka Modal Reply #replyModal]
+    ModalReply --> InputReply[Tulis Pesan Balasan Admin]
+    InputReply --> TriggerEJS[Execute EmailJS SDK via JavaScript]
+    TriggerEJS --> SendEJS[Send Template 'template_x2i6d1o']
+    SendEJS --> MarkRead[UPDATE status = 'sudah_dibaca']
+    MarkRead --> SuccessToast[Tampilkan Toast 'Balasan Terkirim!'] --> Reload
+
+    Actions -->|Logout| LogOutProc[GET /admin/logout.php] --> DestroySession[Destroy Session] --> FormLogin
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. DFD LEVEL 1 -->
+    <div class="diagram-card" id="card-4">
+      <div class="diagram-header">
+        <div class="diagram-title">
+          <div class="icon-box"><i class="fa-solid fa-diagram-project"></i></div>
+          <div>
+            <h3>4. Data Flow Diagram (DFD Level 1)</h3>
+            <p>Aliran paket data antara entitas eksternal, proses sistem, dan data store</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn-action svg-btn" onclick="downloadSVG('diagram-4', '4_DFD_Level_1_XI_PPLG')">
+            <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
+          </button>
+          <button class="btn-action" onclick="downloadPNG('diagram-4', '4_DFD_Level_1_XI_PPLG')">
+            <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
+          </button>
+        </div>
+      </div>
+      <div class="diagram-canvas" id="canvas-4">
+        <div class="mermaid" id="diagram-4">
+graph LR
+    %% Entitas
+    E1[👥 Pengunjung Website]
+    E2[👨‍💼 Admin Kelas]
+    E3[☁️ EmailJS Cloud API]
+
+    %% Proses
+    P1((1.0 Proses Verifikasi OTP & Input Pesan))
+    P2((2.0 Autentikasi & Session Admin))
+    P3((3.0 Kelola Pesan Kontak & Filter))
+    P4((4.0 Proses Balasan Email Admin))
+
+    %% Data Store
+    DS1[(D1: Database pesan_kontak)]
+    DS2[(D2: Session & Env Config)]
+
+    %% Flow Pengunjung
+    E1 -->|1. Request OTP & Data Pesan| P1
+    P1 -->|2. Template Params OTP| E3
+    E3 -->|3. Email OTP| E1
+    P1 -->|4. Simpan Pesan Baru| DS1
+
+    %% Flow Admin Auth
+    E2 -->|5. Input Creds Username & Password| P2
+    DS2 -->|6. Validasi CSRF & Session| P2
+    P2 -->|7. Hak Akses Admin| E2
+
+    %% Flow Kelola Pesan
+    DS1 -->|8. Data Pesan Masuk| P3
+    P3 -->|9. Tampilan Pesan & Statistik| E2
+    E2 -->|10. Action Hapus / Status| P3
+    P3 -->|11. Update Data SQL| DS1
+
+    %% Flow Balas Pesan
+    E2 -->|12. Teks Balasan Admin| P4
+    P4 -->|13. Send Template Reply| E3
+    E3 -->|14. Email Balasan Resmi| E1
+    P4 -->|15. Set Status Sudah Dibaca| DS1
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ERD DATABASE -->
+    <div class="diagram-card" id="card-5">
+      <div class="diagram-header">
+        <div class="diagram-title">
+          <div class="icon-box"><i class="fa-solid fa-database"></i></div>
+          <div>
+            <h3>5. Entity Relationship Diagram (ERD) & Skema MySQL</h3>
+            <p>Struktur entitas tabel database db_xi_pplg beserta tipe data kolomnya</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn-action svg-btn" onclick="downloadSVG('diagram-5', '5_ERD_Database_XI_PPLG')">
+            <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
+          </button>
+          <button class="btn-action" onclick="downloadPNG('diagram-5', '5_ERD_Database_XI_PPLG')">
+            <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
+          </button>
+        </div>
+      </div>
+      <div class="diagram-canvas" id="canvas-5">
+        <div class="mermaid" id="diagram-5">
+erDiagram
+    PESAN_KONTAK {
+        int id PK "AUTO_INCREMENT, Primary Key"
+        varchar(100) nama "Nama Lengkap Pengirim"
+        varchar(100) email "Alamat Email Valid Pengirim"
+        varchar(150) subjek "Subjek / Topik Pesan"
+        text pesan "Isi Pesan Utama"
+        enum status "'belum_dibaca', 'sudah_dibaca'"
+        datetime created_at "Waktu Otomatis Dibuat (CURRENT_TIMESTAMP)"
+    }
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-bar">
+      <p>&copy; 2026 XI PPLG • SMK Bali Dewata. Live Website: <a href="https://www.xipplgbadewa.my.id" target="_blank">www.xipplgbadewa.my.id</a></p>
+    </div>
+
+  </div>
+
+  <div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check"></i> File diagram berhasil diunduh!
+  </div>
+
+  <script>
+    // Initialize Mermaid
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: false, htmlLabels: true },
+      sequence: { useMaxWidth: false, showSequenceNumbers: true },
+      er: { useMaxWidth: false }
+    });
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+
+    // Helper: Download SVG
+    function downloadSVG(diagramId, filename) {
+      const container = document.getElementById(diagramId);
+      const svgElement = container.querySelector('svg');
+      if (!svgElement) {
+        alert('Diagram masih dimuat, silakan tunggu sebentar.');
+        return;
+      }
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename + '.svg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      showToast('Unduhan SVG ' + filename + ' Selesai!');
+    }
+
+    // Helper: Download PNG (HD 2x scale)
+    function downloadPNG(diagramId, filename) {
+      const container = document.getElementById(diagramId);
+      const svgElement = container.querySelector('svg');
+      if (!svgElement) {
+        alert('Diagram masih dimuat, silakan tunggu sebentar.');
+        return;
+      }
+
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+
+      const image = new Image();
+      image.onload = function () {
+        const scale = 2.5; // High definition output
+        const canvas = document.createElement('canvas');
+        canvas.width = (svgElement.getBoundingClientRect().width || 800) * scale + 80;
+        canvas.height = (svgElement.getBoundingClientRect().height || 600) * scale + 80;
+        const ctx = canvas.getContext('2d');
+
+        // White background for clear contrast
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.drawImage(image, 40, 40, canvas.width - 80, canvas.height - 80);
+
+        const pngURL = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngURL;
+        downloadLink.download = filename + '.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        URLObj.revokeObjectURL(blobURL);
+        showToast('Unduhan PNG ' + filename + ' Selesai!');
+      };
+      image.src = blobURL;
+    }
+
+    // Bulk Download all 5 diagrams in PNG
+    function downloadAllDiagrams() {
+      const list = [
+        { id: 'diagram-1', name: '1_Arsitektur_Sistem_XI_PPLG' },
+        { id: 'diagram-2', name: '2_Sequence_OTP_Flow_XI_PPLG' },
+        { id: 'diagram-3', name: '3_Flowchart_Admin_XI_PPLG' },
+        { id: 'diagram-4', name: '4_DFD_Level_1_XI_PPLG' },
+        { id: 'diagram-5', name: '5_ERD_Database_XI_PPLG' }
+      ];
+
+      list.forEach((item, index) => {
+        setTimeout(() => {
+          downloadPNG(item.id, item.name);
+        }, index * 800);
+      });
+    }
+  </script>
+</body>
+</html>
