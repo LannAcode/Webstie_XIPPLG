@@ -9,7 +9,7 @@
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Mermaid.js CDN -->
@@ -19,7 +19,6 @@
     :root {
       --bg-dark: #0B0F19;
       --bg-card: #151C2C;
-      --bg-inner: #0F172A;
       --primary-blue: #3B82F6;
       --accent-cyan: #06B6D4;
       --accent-emerald: #10B981;
@@ -114,10 +113,6 @@
       margin-bottom: 2.5rem;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: border-color 0.3s ease;
-    }
-    .diagram-card:hover {
-      border-color: rgba(59, 130, 246, 0.4);
     }
 
     .diagram-header {
@@ -214,7 +209,6 @@
       text-decoration: none;
     }
 
-    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -227,11 +221,6 @@
       display: none;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       z-index: 9999;
-      animation: slideUp 0.3s ease;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
   </style>
 </head>
@@ -246,7 +235,7 @@
       </div>
       <h1>Download Diagram Sistem XI PPLG</h1>
       <p class="subtitle">
-        Unduh seluruh diagram arsitektur, sequence, flowchart admin, DFD, dan ERD resmi Website XI PPLG SMK Bali Dewata dalam resolusi tinggi (PNG & SVG Vektor).
+        Unduh seluruh diagram arsitektur, sequence OTP, flowchart admin, DFD, dan ERD resmi Website XI PPLG SMK Bali Dewata dalam resolusi tinggi (PNG & SVG Vektor).
       </p>
       <button class="btn-bulk-download" onclick="downloadAllDiagrams()">
         <i class="fa-solid fa-cloud-arrow-down"></i> Unduh Semua Diagram Sekaligus (.PNG)
@@ -275,56 +264,45 @@
       <div class="diagram-canvas" id="canvas-1">
         <div class="mermaid" id="diagram-1">
 graph TD
-    subgraph Users ["👥 Pengguna Sistem"]
-        V["🌐 Pengunjung / Visitor"]
-        A["👨‍💻 Admin / Pengurus XI PPLG"]
+    subgraph Users ["Pengguna Sistem"]
+        V["Pengunjung / Visitor"]
+        A["Admin / Pengurus XI PPLG"]
     end
 
-    subgraph Frontend ["🎨 Layer Frontend (Browser Client)"]
-        UI["📱 Web App XI PPLG (HTML5, CSS3, JS ES6)"]
-        MOD["🧩 Seksi Website:
-        • Hero & Tentang
-        • Daftar 9 Siswa
-        • Jadwal & Guru
-        • Galeri & Kegiatan
-        • Form Kontak & OTP"]
-        EJS_SDK["⚡ EmailJS Browser SDK"]
+    subgraph Frontend ["Layer Frontend Browser"]
+        UI["Web App XI PPLG HTML5 CSS3 JS"]
+        MOD["Fitur: Hero, Siswa, Jadwal, Galeri, Kegiatan, Kontak OTP"]
+        EJS_SDK["EmailJS Browser SDK"]
     end
 
-    subgraph Server ["🖥️ Layer Backend PHP 8.2 (Server)"]
-        ENTRY["📄 index.php (Master Entry)"]
-        ENV["🔒 config/env.php (.env Loader)"]
-        DB_CFG["🔌 config/db.php (PDO Connection)"]
-        ADMIN_SYS["📊 Admin Subsystem:
-        • admin/login.php (Auth & CSRF)
-        • admin/index.php (Dashboard)
-        • admin/action.php (CRUD Handler)"]
-        SEC["🛡️ Security Headers & Session Engine"]
+    subgraph Server ["Layer Backend PHP 8.2 Server"]
+        ENTRY["index.php Master Entry"]
+        ENV["config/env.php Loader"]
+        DB_CFG["config/db.php PDO Connection"]
+        ADMIN_SYS["Admin Subsystem login, index, action"]
+        SEC["Security Headers and Session"]
     end
 
-    subgraph Storage ["💾 Layer Data (MySQL DB)"]
-        DB[(🗄️ Database: db_xi_pplg)]
-        TBL["📋 Table: pesan_kontak
-        (id, nama, email, subjek, pesan, status, created_at)"]
+    subgraph Storage ["Layer Data MySQL"]
+        DB[("Database db_xi_pplg")]
+        TBL["Tabel: pesan_kontak"]
     end
 
-    subgraph Cloud ["☁️ Layanan Eksternal & SEO"]
-        EJS_CLOUD["✉️ EmailJS Cloud Service
-        (Service ID: service_kwbsvxg)"]
-        T_OTP["🔑 Template 1: OTP (template_bu1bryq)"]
-        T_REPLY["✉️ Template 2: Reply (template_x2i6d1o)"]
-        G_SEARCH["🔍 Googlebot & Search Console
-        (robots.txt & sitemap.xml)"]
+    subgraph Cloud ["Layanan Eksternal dan SEO"]
+        EJS_CLOUD["EmailJS Cloud Service ID service_kwbsvxg"]
+        T_OTP["Template 1: OTP template_bu1bryq"]
+        T_REPLY["Template 2: Reply template_x2i6d1o"]
+        G_SEARCH["Googlebot and Search Console"]
     end
 
     V -->|Akses Website| UI
-    UI --- MOD
+    UI --> MOD
     UI -->|Kirim Request OTP| EJS_SDK
     EJS_SDK -->|Kirim Email OTP| EJS_CLOUD
     EJS_CLOUD --> T_OTP
     T_OTP -->|Kirim Kode 6 Digit| V
 
-    UI -->|Submit Form Kontak (Setelah Validasi OTP)| ENTRY
+    UI -->|Submit Form Kontak| ENTRY
     ENTRY --> SEC
     SEC --> DB_CFG
     DB_CFG --> ENV
@@ -367,32 +345,32 @@ sequenceDiagram
     autonumber
     actor Pengunjung
     participant Frontend as Website XI PPLG
-    participant JS as contact.js (JS Module)
+    participant JS as contact.js
     participant EmailJS as EmailJS Cloud Service
     participant Gmail as Inbox Gmail Pengunjung
-    participant PHP as Backend PHP (index.php)
+    participant PHP as Backend PHP index.php
     participant MySQL as Database MySQL
 
-    Pengunjung->>Frontend: Isi Nama & Email pada Form Kontak
-    Pengunjung->>Frontend: Klik Tombol "Kirim Kode OTP"
+    Pengunjung->>Frontend: Isi Nama dan Email pada Form Kontak
+    Pengunjung->>Frontend: Klik Tombol Kirim Kode OTP
     Frontend->>JS: Trigger Event Handler Send OTP
-    JS->>JS: Generate Kode OTP 6-Digit Acak (misal: 849201)
-    JS->>EmailJS: Send Template 'template_bu1bryq' (service_kwbsvxg)
-    EmailJS-->>Gmail: Kirim Email Kode OTP (Passcode: 849201)
+    JS->>JS: Generate Kode OTP 6-Digit Acak misal: 849201
+    JS->>EmailJS: Send Template template_bu1bryq
+    EmailJS-->>Gmail: Kirim Email Kode OTP Passcode: 849201
     Gmail-->>Pengunjung: Terima Email Kode OTP
     
-    Pengunjung->>Frontend: Masukkan 6-Digit Kode OTP & Isi Pesan
-    Pengunjung->>Frontend: Klik "Verifikasi & Kirim Pesan"
+    Pengunjung->>Frontend: Masukkan 6-Digit Kode OTP dan Isi Pesan
+    Pengunjung->>Frontend: Klik Verifikasi dan Kirim Pesan
     Frontend->>JS: Validasi Kode OTP Input vs Generated OTP
     
     alt Kode OTP Salah / Tidak Cocok
-        JS-->>Frontend: Tampilkan Alert "Kode OTP Salah!"
+        JS-->>Frontend: Tampilkan Alert Kode OTP Salah!
     else Kode OTP Benar / Valid
         JS->>PHP: Submit Form via HTTP POST
-        PHP->>MySQL: INSERT INTO pesan_kontak (nama, email, subjek, pesan, status)
-        MySQL-->>PHP: Success (Insert OK)
-        PHP-->>Frontend: Response Success & Reset Form
-        Frontend-->>Pengunjung: Tampilkan Toast Notifikasi "Pesan Terkirim!"
+        PHP->>MySQL: INSERT INTO pesan_kontak
+        MySQL-->>PHP: Success Insert OK
+        PHP-->>Frontend: Response Success and Reset Form
+        Frontend-->>Pengunjung: Tampilkan Toast Notifikasi Pesan Terkirim!
     end
         </div>
       </div>
@@ -421,7 +399,7 @@ sequenceDiagram
         <div class="mermaid" id="diagram-3">
 flowchart TD
     Start([Akses /admin/login.php]) --> CheckSession{Sudah Login?}
-    CheckSession -- Ya --> Dashboard[/admin/index.php/]
+    CheckSession -- Ya --> Dashboard[Masuk /admin/index.php]
     CheckSession -- Tidak --> FormLogin[Tampilkan Form Login Admin]
     
     FormLogin --> InputCreds[Input Username & Password]
@@ -432,20 +410,20 @@ flowchart TD
     
     Dashboard --> Actions{Pilih Aksi Admin}
     
-    Actions -->|Cari / Filter| SearchProc[Filter Query SQL berdasarkan Keyword / Status] --> RenderTable[Tampilkan Tabel Pesan]
+    Actions -->|Cari / Filter| SearchProc[Filter Query SQL: Keyword / Status] --> RenderTable[Tampilkan Tabel Pesan]
     
-    Actions -->|Ubah Status| ToggleProc[GET /admin/action.php?action=toggle_status]
-    ToggleProc --> UpdateDB1[UPDATE pesan_kontak SET status = 'sudah_dibaca' / 'belum_dibaca'] --> Reload[Reload Tabel]
+    Actions -->|Ubah Status| ToggleProc[action.php?action=toggle_status]
+    ToggleProc --> UpdateDB1[UPDATE status: dibaca / belum] --> Reload[Reload Tabel]
     
-    Actions -->|Hapus Pesan| DelProc[GET /admin/action.php?action=delete]
-    DelProc --> UpdateDB2[DELETE FROM pesan_kontak WHERE id = X] --> Reload
+    Actions -->|Hapus Pesan| DelProc[action.php?action=delete]
+    DelProc --> UpdateDB2[DELETE FROM pesan_kontak] --> Reload
     
-    Actions -->|Balas Email| ModalReply[Buka Modal Reply #replyModal]
+    Actions -->|Balas Email| ModalReply[Buka Modal Reply]
     ModalReply --> InputReply[Tulis Pesan Balasan Admin]
     InputReply --> TriggerEJS[Execute EmailJS SDK via JavaScript]
-    TriggerEJS --> SendEJS[Send Template 'template_x2i6d1o']
-    SendEJS --> MarkRead[UPDATE status = 'sudah_dibaca']
-    MarkRead --> SuccessToast[Tampilkan Toast 'Balasan Terkirim!'] --> Reload
+    TriggerEJS --> SendEJS[Send Template template_x2i6d1o]
+    SendEJS --> MarkRead[UPDATE status = sudah_dibaca]
+    MarkRead --> SuccessToast[Tampilkan Toast Balasan Terkirim!] --> Reload
 
     Actions -->|Logout| LogOutProc[GET /admin/logout.php] --> DestroySession[Destroy Session] --> FormLogin
         </div>
@@ -474,43 +452,36 @@ flowchart TD
       <div class="diagram-canvas" id="canvas-4">
         <div class="mermaid" id="diagram-4">
 graph LR
-    %% Entitas
-    E1[👥 Pengunjung Website]
-    E2[👨‍💼 Admin Kelas]
-    E3[☁️ EmailJS Cloud API]
+    E1[Pengunjung Website]
+    E2[Admin Kelas]
+    E3[EmailJS Cloud API]
 
-    %% Proses
-    P1((1.0 Proses Verifikasi OTP & Input Pesan))
-    P2((2.0 Autentikasi & Session Admin))
-    P3((3.0 Kelola Pesan Kontak & Filter))
-    P4((4.0 Proses Balasan Email Admin))
+    P1((1.0 Verifikasi OTP & Pesan))
+    P2((2.0 Autentikasi Admin))
+    P3((3.0 Kelola Pesan Kontak))
+    P4((4.0 Balas Pesan Email))
 
-    %% Data Store
     DS1[(D1: Database pesan_kontak)]
-    DS2[(D2: Session & Env Config)]
+    DS2[(D2: Session & Config)]
 
-    %% Flow Pengunjung
-    E1 -->|1. Request OTP & Data Pesan| P1
-    P1 -->|2. Template Params OTP| E3
-    E3 -->|3. Email OTP| E1
-    P1 -->|4. Simpan Pesan Baru| DS1
+    E1 -->|Request OTP & Pesan| P1
+    P1 -->|Template Params OTP| E3
+    E3 -->|Email Kode OTP| E1
+    P1 -->|Simpan Pesan Baru| DS1
 
-    %% Flow Admin Auth
-    E2 -->|5. Input Creds Username & Password| P2
-    DS2 -->|6. Validasi CSRF & Session| P2
-    P2 -->|7. Hak Akses Admin| E2
+    E2 -->|Input Username & Password| P2
+    DS2 -->|Validasi Session| P2
+    P2 -->|Hak Akses Admin| E2
 
-    %% Flow Kelola Pesan
-    DS1 -->|8. Data Pesan Masuk| P3
-    P3 -->|9. Tampilan Pesan & Statistik| E2
-    E2 -->|10. Action Hapus / Status| P3
-    P3 -->|11. Update Data SQL| DS1
+    DS1 -->|Data Pesan Masuk| P3
+    P3 -->|Tabel Pesan & Statistik| E2
+    E2 -->|Aksi Hapus / Status| P3
+    P3 -->|Update SQL| DS1
 
-    %% Flow Balas Pesan
-    E2 -->|12. Teks Balasan Admin| P4
-    P4 -->|13. Send Template Reply| E3
-    E3 -->|14. Email Balasan Resmi| E1
-    P4 -->|15. Set Status Sudah Dibaca| DS1
+    E2 -->|Teks Balasan Admin| P4
+    P4 -->|Send Template Reply| E3
+    E3 -->|Email Balasan Resmi| E1
+    P4 -->|Set Status Dibaca| DS1
         </div>
       </div>
     </div>
@@ -538,13 +509,13 @@ graph LR
         <div class="mermaid" id="diagram-5">
 erDiagram
     PESAN_KONTAK {
-        int id PK "AUTO_INCREMENT, Primary Key"
-        varchar(100) nama "Nama Lengkap Pengirim"
-        varchar(100) email "Alamat Email Valid Pengirim"
-        varchar(150) subjek "Subjek / Topik Pesan"
-        text pesan "Isi Pesan Utama"
-        enum status "'belum_dibaca', 'sudah_dibaca'"
-        datetime created_at "Waktu Otomatis Dibuat (CURRENT_TIMESTAMP)"
+        int id PK "Primary Key"
+        varchar nama "Nama Pengirim"
+        varchar email "Email Pengirim"
+        varchar subjek "Subjek Pesan"
+        text pesan "Isi Pesan"
+        enum status "belum_dibaca / sudah_dibaca"
+        datetime created_at "Timestamp Otomatis"
     }
         </div>
       </div>
@@ -562,14 +533,13 @@ erDiagram
   </div>
 
   <script>
-    // Initialize Mermaid
     mermaid.initialize({
       startOnLoad: true,
       theme: 'default',
       securityLevel: 'loose',
-      flowchart: { useMaxWidth: false, htmlLabels: true },
-      sequence: { useMaxWidth: false, showSequenceNumbers: true },
-      er: { useMaxWidth: false }
+      flowchart: { useMaxWidth: true, htmlLabels: true },
+      sequence: { useMaxWidth: true, showSequenceNumbers: true },
+      er: { useMaxWidth: true }
     });
 
     function showToast(msg) {
@@ -600,7 +570,7 @@ erDiagram
       showToast('Unduhan SVG ' + filename + ' Selesai!');
     }
 
-    // Helper: Download PNG (HD 2x scale)
+    // Helper: Download PNG (HD 2.5x scale)
     function downloadPNG(diagramId, filename) {
       const container = document.getElementById(diagramId);
       const svgElement = container.querySelector('svg');
@@ -616,13 +586,12 @@ erDiagram
 
       const image = new Image();
       image.onload = function () {
-        const scale = 2.5; // High definition output
+        const scale = 2.5;
         const canvas = document.createElement('canvas');
         canvas.width = (svgElement.getBoundingClientRect().width || 800) * scale + 80;
         canvas.height = (svgElement.getBoundingClientRect().height || 600) * scale + 80;
         const ctx = canvas.getContext('2d');
 
-        // White background for clear contrast
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
@@ -654,7 +623,7 @@ erDiagram
       list.forEach((item, index) => {
         setTimeout(() => {
           downloadPNG(item.id, item.name);
-        }, index * 800);
+        }, index * 700);
       });
     }
   </script>
