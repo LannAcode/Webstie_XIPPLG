@@ -12,6 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- JSZip & FileSaver for 100% Reliable 1-Click ZIP Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <!-- Mermaid.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 
@@ -89,21 +93,21 @@
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+      background: linear-gradient(135deg, #10B981, #06B6D4);
       color: #fff;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 0.85rem 1.8rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 0.9rem 2rem;
       border-radius: var(--radius-md);
       text-decoration: none;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35);
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
       transition: all 0.3s ease;
     }
     .btn-bulk-download:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5);
+      box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6);
     }
 
     .diagram-card {
@@ -215,12 +219,13 @@
       right: 2rem;
       background: var(--accent-emerald);
       color: #FFFFFF;
-      padding: 0.85rem 1.5rem;
+      padding: 0.9rem 1.6rem;
       border-radius: 10px;
       font-weight: 600;
       display: none;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       z-index: 9999;
+      font-size: 0.95rem;
     }
   </style>
 </head>
@@ -235,10 +240,10 @@
       </div>
       <h1>Download Diagram Sistem XI PPLG</h1>
       <p class="subtitle">
-        Unduh seluruh diagram arsitektur, sequence OTP, flowchart admin, DFD, dan ERD resmi Website XI PPLG SMK Bali Dewata dalam resolusi tinggi (PNG & SVG Vektor).
+        Unduh seluruh diagram arsitektur, sequence OTP, flowchart admin, DFD, dan ERD resmi Website XI PPLG SMK Bali Dewata dalam format PNG (HD) dan SVG Vektor.
       </p>
-      <button class="btn-bulk-download" onclick="downloadAllDiagrams()">
-        <i class="fa-solid fa-cloud-arrow-down"></i> Unduh Semua Diagram Sekaligus (.PNG)
+      <button class="btn-bulk-download" id="btnBulk" onclick="downloadAllInZip()">
+        <i class="fa-solid fa-file-zipper"></i> Unduh Semua Diagram Sekaligus (.ZIP / HD)
       </button>
     </div>
 
@@ -256,7 +261,7 @@
           <button class="btn-action svg-btn" onclick="downloadSVG('diagram-1', '1_Arsitektur_Sistem_XI_PPLG')">
             <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
           </button>
-          <button class="btn-action" onclick="downloadPNG('diagram-1', '1_Arsitektur_Sistem_XI_PPLG')">
+          <button class="btn-action" onclick="downloadPNGDirect('diagram-1', '1_Arsitektur_Sistem_XI_PPLG')">
             <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
           </button>
         </div>
@@ -334,7 +339,7 @@ graph TD
           <button class="btn-action svg-btn" onclick="downloadSVG('diagram-2', '2_Sequence_OTP_Flow_XI_PPLG')">
             <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
           </button>
-          <button class="btn-action" onclick="downloadPNG('diagram-2', '2_Sequence_OTP_Flow_XI_PPLG')">
+          <button class="btn-action" onclick="downloadPNGDirect('diagram-2', '2_Sequence_OTP_Flow_XI_PPLG')">
             <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
           </button>
         </div>
@@ -390,7 +395,7 @@ sequenceDiagram
           <button class="btn-action svg-btn" onclick="downloadSVG('diagram-3', '3_Flowchart_Admin_XI_PPLG')">
             <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
           </button>
-          <button class="btn-action" onclick="downloadPNG('diagram-3', '3_Flowchart_Admin_XI_PPLG')">
+          <button class="btn-action" onclick="downloadPNGDirect('diagram-3', '3_Flowchart_Admin_XI_PPLG')">
             <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
           </button>
         </div>
@@ -444,7 +449,7 @@ flowchart TD
           <button class="btn-action svg-btn" onclick="downloadSVG('diagram-4', '4_DFD_Level_1_XI_PPLG')">
             <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
           </button>
-          <button class="btn-action" onclick="downloadPNG('diagram-4', '4_DFD_Level_1_XI_PPLG')">
+          <button class="btn-action" onclick="downloadPNGDirect('diagram-4', '4_DFD_Level_1_XI_PPLG')">
             <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
           </button>
         </div>
@@ -500,7 +505,7 @@ graph LR
           <button class="btn-action svg-btn" onclick="downloadSVG('diagram-5', '5_ERD_Database_XI_PPLG')">
             <i class="fa-solid fa-file-code"></i> Unduh SVG (Vektor)
           </button>
-          <button class="btn-action" onclick="downloadPNG('diagram-5', '5_ERD_Database_XI_PPLG')">
+          <button class="btn-action" onclick="downloadPNGDirect('diagram-5', '5_ERD_Database_XI_PPLG')">
             <i class="fa-solid fa-file-image"></i> Unduh PNG (HD)
           </button>
         </div>
@@ -546,72 +551,108 @@ erDiagram
       const toast = document.getElementById('toast');
       toast.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + msg;
       toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
     }
 
-    // Helper: Download SVG
+    // Clean and prepare SVG XML
+    function getCleanSVG(diagramId) {
+      const container = document.getElementById(diagramId);
+      const svg = container ? container.querySelector('svg') : null;
+      if (!svg) return null;
+
+      // Clone SVG
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+      
+      const bBox = svg.getBoundingClientRect();
+      const width = Math.max(bBox.width, 600);
+      const height = Math.max(bBox.height, 400);
+
+      if (!clone.getAttribute('viewBox')) {
+        clone.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+      }
+      clone.setAttribute('width', width);
+      clone.setAttribute('height', height);
+
+      return new XMLSerializer().serializeToString(clone);
+    }
+
+    // 1. Download Single SVG
     function downloadSVG(diagramId, filename) {
-      const container = document.getElementById(diagramId);
-      const svgElement = container.querySelector('svg');
-      if (!svgElement) {
-        alert('Diagram masih dimuat, silakan tunggu sebentar.');
+      const svgString = getCleanSVG(diagramId);
+      if (!svgString) {
+        alert('Diagram sedang dimuat, silakan tunggu 1 detik.');
         return;
       }
-      const svgData = new XMLSerializer().serializeToString(svgElement);
-      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename + '.svg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      showToast('Unduhan SVG ' + filename + ' Selesai!');
+      const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      saveAs(blob, filename + '.svg');
+      showToast('Unduhan SVG (' + filename + '.svg) Berhasil!');
     }
 
-    // Helper: Download PNG (HD 2.5x scale)
-    function downloadPNG(diagramId, filename) {
-      const container = document.getElementById(diagramId);
-      const svgElement = container.querySelector('svg');
-      if (!svgElement) {
-        alert('Diagram masih dimuat, silakan tunggu sebentar.');
+    // 2. Download Single PNG (Bulletproof Canvas Rendering)
+    function downloadPNGDirect(diagramId, filename) {
+      const svgString = getCleanSVG(diagramId);
+      if (!svgString) {
+        alert('Diagram sedang dimuat, silakan tunggu 1 detik.');
         return;
       }
 
-      const svgData = new XMLSerializer().serializeToString(svgElement);
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const URLObj = window.URL || window.webkitURL || window;
-      const blobURL = URLObj.createObjectURL(svgBlob);
+      const container = document.getElementById(diagramId);
+      const svg = container.querySelector('svg');
+      const bBox = svg.getBoundingClientRect();
+      const baseWidth = Math.max(bBox.width, 700);
+      const baseHeight = Math.max(bBox.height, 450);
+      const scale = 2.0;
 
-      const image = new Image();
-      image.onload = function () {
-        const scale = 2.5;
-        const canvas = document.createElement('canvas');
-        canvas.width = (svgElement.getBoundingClientRect().width || 800) * scale + 80;
-        canvas.height = (svgElement.getBoundingClientRect().height || 600) * scale + 80;
-        const ctx = canvas.getContext('2d');
+      const canvas = document.createElement('canvas');
+      canvas.width = baseWidth * scale + 60;
+      canvas.height = baseHeight * scale + 60;
+      const ctx = canvas.getContext('2d');
 
+      const img = new Image();
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = function() {
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.drawImage(image, 40, 40, canvas.width - 80, canvas.height - 80);
+        ctx.drawImage(img, 30, 30, baseWidth * scale, baseHeight * scale);
+        URL.revokeObjectURL(url);
 
-        const pngURL = canvas.toDataURL('image/png');
-        const downloadLink = document.createElement('a');
-        downloadLink.href = pngURL;
-        downloadLink.download = filename + '.png';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-        URLObj.revokeObjectURL(blobURL);
-        showToast('Unduhan PNG ' + filename + ' Selesai!');
+        canvas.toBlob(function(blob) {
+          if (blob) {
+            saveAs(blob, filename + '.png');
+            showToast('Unduhan PNG (' + filename + '.png) Berhasil!');
+          } else {
+            // Fallback to SVG if canvas blob is blocked
+            saveAs(svgBlob, filename + '.svg');
+            showToast('Unduhan file diagram berhasil!');
+          }
+        }, 'image/png');
       };
-      image.src = blobURL;
+
+      img.onerror = function() {
+        URL.revokeObjectURL(url);
+        // Fallback langsung ke SVG agar tidak pernah gagal
+        saveAs(svgBlob, filename + '.svg');
+        showToast('Unduhan dialihkan ke format SVG (Vektor HD)!');
+      };
+
+      img.src = url;
     }
 
-    // Bulk Download all 5 diagrams in PNG
-    function downloadAllDiagrams() {
+    // 3. Download All Diagrams in 1 Neat ZIP File (Zero browser popup blockage!)
+    async function downloadAllInZip() {
+      const btn = document.getElementById('btnBulk');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres Semua Diagram ke .ZIP...';
+      btn.disabled = true;
+
+      const zip = new JSZip();
+      const folderPNG = zip.folder("Diagram_PNG_HD");
+      const folderSVG = zip.folder("Diagram_SVG_Vector");
+
       const list = [
         { id: 'diagram-1', name: '1_Arsitektur_Sistem_XI_PPLG' },
         { id: 'diagram-2', name: '2_Sequence_OTP_Flow_XI_PPLG' },
@@ -620,10 +661,54 @@ erDiagram
         { id: 'diagram-5', name: '5_ERD_Database_XI_PPLG' }
       ];
 
-      list.forEach((item, index) => {
-        setTimeout(() => {
-          downloadPNG(item.id, item.name);
-        }, index * 700);
+      for (let item of list) {
+        const svgString = getCleanSVG(item.id);
+        if (svgString) {
+          // Add SVG to zip
+          folderSVG.file(item.name + ".svg", svgString);
+
+          // Render PNG for zip
+          await new Promise((resolve) => {
+            const svg = document.getElementById(item.id).querySelector('svg');
+            const bBox = svg.getBoundingClientRect();
+            const w = Math.max(bBox.width, 700);
+            const h = Math.max(bBox.height, 450);
+            const scale = 2.0;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w * scale + 60;
+            canvas.height = h * scale + 60;
+            const ctx = canvas.getContext('2d');
+
+            const img = new Image();
+            const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function() {
+              ctx.fillStyle = '#FFFFFF';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 30, 30, w * scale, h * scale);
+              URL.revokeObjectURL(url);
+              const dataUrl = canvas.toDataURL('image/png').split(',')[1];
+              folderPNG.file(item.name + ".png", dataUrl, { base64: true });
+              resolve();
+            };
+
+            img.onerror = function() {
+              URL.revokeObjectURL(url);
+              resolve();
+            };
+
+            img.src = url;
+          });
+        }
+      }
+
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        saveAs(content, "Paket_Lengkap_Diagram_Sistem_XI_PPLG.zip");
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        showToast('Semua Diagram Berhasil Diunduh dalam Paket .ZIP!');
       });
     }
   </script>
