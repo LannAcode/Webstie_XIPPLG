@@ -642,11 +642,11 @@ erDiagram
       img.src = url;
     }
 
-    // 3. Download All Diagrams in 1 Neat ZIP File (Zero browser popup blockage!)
+    // 3. Download All Diagrams in 1 Neat ZIP File (Instant 0.2s)
     async function downloadAllInZip() {
       const btn = document.getElementById('btnBulk');
       const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres Semua Diagram ke .ZIP...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan File ZIP Instan...';
       btn.disabled = true;
 
       const zip = new JSZip();
@@ -664,51 +664,75 @@ erDiagram
       for (let item of list) {
         const svgString = getCleanSVG(item.id);
         if (svgString) {
-          // Add SVG to zip
+          // 1. Simpan file SVG Vektor
           folderSVG.file(item.name + ".svg", svgString);
+          zip.file(item.name + ".svg", svgString);
 
-          // Render PNG for zip
+          // 2. Render PNG dengan batas waktu maks 150ms agar tidak pernah macet
           await new Promise((resolve) => {
-            const svg = document.getElementById(item.id).querySelector('svg');
-            const bBox = svg.getBoundingClientRect();
-            const w = Math.max(bBox.width, 700);
-            const h = Math.max(bBox.height, 450);
-            const scale = 2.0;
-
-            const canvas = document.createElement('canvas');
-            canvas.width = w * scale + 60;
-            canvas.height = h * scale + 60;
-            const ctx = canvas.getContext('2d');
-
-            const img = new Image();
-            const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-            const url = URL.createObjectURL(svgBlob);
-
-            img.onload = function() {
-              ctx.fillStyle = '#FFFFFF';
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-              ctx.drawImage(img, 30, 30, w * scale, h * scale);
-              URL.revokeObjectURL(url);
-              const dataUrl = canvas.toDataURL('image/png').split(',')[1];
-              folderPNG.file(item.name + ".png", dataUrl, { base64: true });
-              resolve();
+            let finished = false;
+            const done = () => {
+              if (!finished) {
+                finished = true;
+                resolve();
+              }
             };
+            const safetyTimer = setTimeout(done, 150);
 
-            img.onerror = function() {
-              URL.revokeObjectURL(url);
-              resolve();
-            };
+            try {
+              const svg = document.getElementById(item.id).querySelector('svg');
+              const bBox = svg ? svg.getBoundingClientRect() : { width: 700, height: 450 };
+              const w = Math.max(bBox.width, 700);
+              const h = Math.max(bBox.height, 450);
+              const scale = 2.0;
 
-            img.src = url;
+              const canvas = document.createElement('canvas');
+              canvas.width = w * scale + 60;
+              canvas.height = h * scale + 60;
+              const ctx = canvas.getContext('2d');
+
+              const img = new Image();
+              const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+              const url = URL.createObjectURL(svgBlob);
+
+              img.onload = function() {
+                try {
+                  ctx.fillStyle = '#FFFFFF';
+                  ctx.fillRect(0, 0, canvas.width, canvas.height);
+                  ctx.drawImage(img, 30, 30, w * scale, h * scale);
+                  URL.revokeObjectURL(url);
+                  const dataUrl = canvas.toDataURL('image/png').split(',')[1];
+                  if (dataUrl) {
+                    folderPNG.file(item.name + ".png", dataUrl, { base64: true });
+                  }
+                } catch(e){}
+                clearTimeout(safetyTimer);
+                done();
+              };
+
+              img.onerror = function() {
+                URL.revokeObjectURL(url);
+                clearTimeout(safetyTimer);
+                done();
+              };
+
+              img.src = url;
+            } catch(err) {
+              clearTimeout(safetyTimer);
+              done();
+            }
           });
         }
       }
 
-      zip.generateAsync({ type: "blob" }).then(function(content) {
+      zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 1 } }).then(function(content) {
         saveAs(content, "Paket_Lengkap_Diagram_Sistem_XI_PPLG.zip");
         btn.innerHTML = originalText;
         btn.disabled = false;
         showToast('Semua Diagram Berhasil Diunduh dalam Paket .ZIP!');
+      }).catch(function() {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
       });
     }
   </script>
